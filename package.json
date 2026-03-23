@@ -1,0 +1,47 @@
+{
+  "name": "supabase-export",
+  "version": "1.0.0",
+  "description": "Export all your Supabase data to JSON or SQL, and import into any Postgres database. The definitive escape hatch.",
+  "type": "module",
+  "bin": {
+    "supabase-export": "./src/cli.js"
+  },
+  "exports": {
+    "./exporter": "./src/exporter.js",
+    "./importer": "./src/importer.js"
+  },
+  "files": [
+    "src/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test tests/",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": [
+    "supabase", "export", "migrate", "postgres", "postgresql",
+    "backup", "self-host", "data", "import", "cli", "escape-hatch"
+  ],
+  "license": "MIT",
+  "author": "Nometria <hello@nometria.com>",
+  "homepage": "https://github.com/nometria/supabase-export#readme",
+  "bugs": {
+    "url": "https://github.com/nometria/supabase-export/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nometria/supabase-export.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": ">=2.0.0",
+    "pg": ">=8.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

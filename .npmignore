@@ -1,0 +1,7 @@
+tests/
+.github/
+*.test.js
+supabase-export/
+.env*
+.DS_Store
+node_modules/

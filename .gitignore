@@ -1,0 +1,6 @@
+node_modules/
+supabase-export/
+*.env
+.env
+*.log
+.DS_Store
