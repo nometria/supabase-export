@@ -11,6 +11,38 @@
 
 ---
 
+## Quick start
+
+```bash
+# Install
+npm install -g supabase-export
+
+# Export all tables from your Supabase project
+supabase-export export \
+  --url https://your-project.supabase.co \
+  --key eyJ...service-role-key...
+
+# Import into any Postgres database
+supabase-export import \
+  --dir ./supabase-export \
+  --target postgresql://user:pass@host:5432/db
+
+# List all tables
+supabase-export list --url https://your-project.supabase.co --key eyJ...
+
+# Run tests
+npm test
+```
+
+Required environment variables (alternative to flags):
+```bash
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_KEY=eyJ...             # service role key (not anon key)
+TARGET_DATABASE_URL=postgresql://...    # for imports
+```
+
+---
+
 ## Install
 
 ```bash
@@ -58,22 +90,6 @@ supabase-export/
 ├── posts.json
 ├── comments.json
 └── ...
-```
-
-`_manifest.json` always contains:
-
-```json
-{
-  "exportedAt": "2025-03-22T10:00:00.000Z",
-  "supabaseUrl": "https://your-project.supabase.co",
-  "schema": "public",
-  "format": "json",
-  "tables": [
-    { "table": "users", "rows": 1250 },
-    { "table": "posts", "rows": 4832 }
-  ],
-  "totalRows": 6082
-}
 ```
 
 ---
@@ -141,57 +157,19 @@ Import options:
 import { exportSupabase } from 'supabase-export/exporter';
 import { importToPostgres } from 'supabase-export/importer';
 
-// ── Export ─────────────────────────────────────────────────────────────────
-
 const result = await exportSupabase({
   supabaseUrl:  process.env.SUPABASE_URL,
   supabaseKey:  process.env.SUPABASE_SERVICE_KEY,
-
-  // Optional:
-  tables:    ['users', 'posts'],  // omit to export all tables
-  schema:    'public',
-  format:    'json',              // 'json' | 'sql'
+  tables:    ['users', 'posts'],
+  format:    'json',
   outDir:    './backup',
-  bundle:    false,               // true = single export.json
-  onProgress: (table, fetched) => console.log(`${table}: ${fetched} rows fetched`),
 });
-
-console.log(result.manifest.totalRows); // total rows exported
-console.log(result.stats);              // [{ table: 'users', rows: 1250 }, ...]
-
-// ── Import ─────────────────────────────────────────────────────────────────
 
 await importToPostgres({
   exportDir:  './backup',
   targetUrl:  process.env.TARGET_DATABASE_URL,
-
-  // Optional:
-  tables:  ['users', 'posts'],   // omit to import all tables in manifest
-  dryRun:  false,
 });
 ```
-
-### `exportSupabase(opts)` options
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `supabaseUrl` | string | **required** | Supabase project URL |
-| `supabaseKey` | string | **required** | Service role key |
-| `tables` | string[] | all | Tables to export |
-| `schema` | string | `'public'` | Schema to read from |
-| `format` | `'json'` \| `'sql'` | `'json'` | Output format |
-| `outDir` | string | `'./supabase-export'` | Output directory |
-| `bundle` | boolean | `false` | Write all tables to one file |
-| `onProgress` | function | — | `(table, fetched, total) => void` |
-
-### `importToPostgres(opts)` options
-
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| `exportDir` | string | `'./supabase-export'` | Directory with exported files |
-| `targetUrl` | string | **required** | Postgres connection URL |
-| `tables` | string[] | from manifest | Tables to import |
-| `dryRun` | boolean | `false` | Validate without writing |
 
 ---
 
@@ -201,19 +179,11 @@ The `anon` key cannot bypass Row Level Security and won't be able to read all ro
 
 Supabase Dashboard → Project Settings → API → **Service role key (secret)**
 
-> ⚠️ Never expose the service role key in client-side code or commit it to your repository. Use environment variables.
+> Never expose the service role key in client-side code or commit it to your repository. Use environment variables.
 
 ---
 
 ## Common use cases
-
-### Backup before a destructive migration
-
-```bash
-supabase-export export --url ... --key ...
-# → runs your migration
-# supabase-export import --dir ./supabase-export --target ... (rollback if needed)
-```
 
 ### Migrate to a self-hosted Supabase instance
 
@@ -226,24 +196,13 @@ supabase-export import --dir ./supabase-export \
   --target postgresql://postgres:password@localhost:5432/postgres
 ```
 
-### Seed a development database
-
-```bash
-# Export production data
-supabase-export export --url $PROD_URL --key $PROD_KEY --dir ./seed
-
-# Import to local dev
-supabase-export import --dir ./seed --target postgresql://localhost/myapp_dev
-```
-
-### Scheduled backups (cron / GitHub Actions)
+### Scheduled backups (GitHub Actions)
 
 ```yaml
 # .github/workflows/backup.yml
 on:
   schedule:
     - cron: '0 2 * * *'   # daily at 2am
-
 jobs:
   backup:
     runs-on: ubuntu-latest
@@ -253,11 +212,6 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-      - run: |
-          git config user.email "backup@nometria.com"
-          git add backup/
-          git commit -m "chore: daily backup $(date -u +%Y-%m-%d)"
-          git push
 ```
 
 ---
@@ -265,7 +219,6 @@ jobs:
 ## Technical details
 
 - **Pagination**: fetches 1,000 rows per request using Supabase's `.range()` — handles tables with millions of rows
-- **Ordering**: tries `order by id` for stable pagination; falls back to unordered fetch for tables without `id`
 - **SQL output**: produces `INSERT INTO "schema"."table" (...) VALUES (...) ON CONFLICT DO NOTHING;`
 - **Import batching**: inserts 500 rows per batch; falls back to row-by-row on conflict
 - **Manifest**: `_manifest.json` written on every export for import validation
@@ -281,3 +234,40 @@ PRs welcome. Run tests with `npm test`.
 ## License
 
 MIT © [Nometria](https://nometria.com)
+
+---
+
+## Example output
+
+Running `node --test tests/exporter.test.js`:
+
+```
+✔ toSqlValue handles null (0.37875ms)
+✔ toSqlValue handles numbers (0.066541ms)
+✔ toSqlValue handles booleans (0.056208ms)
+✔ toSqlValue escapes single quotes in strings (0.057792ms)
+✔ toSqlValue serialises objects as JSON (0.75875ms)
+✔ toSqlInsert produces valid INSERT statement (0.591917ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84.789375
+```
+
+CLI help output:
+
+```
+supabase-export — Export and import Supabase data
+
+Commands:
+  export    Pull data from Supabase to local JSON/SQL files
+  import    Load exported data into any Postgres database
+  list      List all tables in a Supabase project
+...
+```
+
+See `examples/sample-export/` for what an export directory looks like, including `_manifest.json` and `users.json`.

@@ -1,0 +1,29 @@
+
+supabase-export — Export and import Supabase data
+
+Commands:
+  export    Pull data from Supabase to local JSON/SQL files
+  import    Load exported data into any Postgres database
+  list      List all tables in a Supabase project
+
+Export options:
+  --url      Supabase project URL (or SUPABASE_URL env var)
+  --key      Service role key (or SUPABASE_SERVICE_KEY env var)
+  --tables   Comma-separated table list (default: all)
+  --schema   Schema to export (default: public)
+  --format   json | sql (default: json)
+  --dir      Output directory (default: ./supabase-export)
+  --bundle   Write all tables into one export.json file
+
+Import options:
+  --dir      Export directory to import from
+  --target   Target Postgres URL (or TARGET_DATABASE_URL env var)
+  --schema   Target schema (default: public)
+  --dry-run  Validate without writing
+
+Examples:
+  supabase-export export --url https://xxx.supabase.co --key eyJ...
+  supabase-export export --url ... --key ... --tables users,posts --format sql
+  supabase-export import --dir ./supabase-export --target postgres://user:pass@host:5432/db
+  supabase-export list --url ... --key ...
+

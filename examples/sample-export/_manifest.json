@@ -1,0 +1,35 @@
+{
+  "version": "1.0.0",
+  "exportedAt": "2026-03-22T09:00:00.000Z",
+  "supabaseUrl": "https://abcdefghij.supabase.co",
+  "schema": "public",
+  "format": "json",
+  "tables": [
+    {
+      "name": "users",
+      "rowCount": 1247,
+      "file": "users.json",
+      "sizeBytes": 189432
+    },
+    {
+      "name": "posts",
+      "rowCount": 3841,
+      "file": "posts.json",
+      "sizeBytes": 1204891
+    },
+    {
+      "name": "comments",
+      "rowCount": 12093,
+      "file": "comments.json",
+      "sizeBytes": 3271044
+    },
+    {
+      "name": "tags",
+      "rowCount": 89,
+      "file": "tags.json",
+      "sizeBytes": 4321
+    }
+  ],
+  "totalRows": 17270,
+  "totalSizeBytes": 4669688
+}

@@ -1,0 +1,14 @@
+✔ toSqlValue handles null (0.37875ms)
+✔ toSqlValue handles numbers (0.066541ms)
+✔ toSqlValue handles booleans (0.056208ms)
+✔ toSqlValue escapes single quotes in strings (0.057792ms)
+✔ toSqlValue serialises objects as JSON (0.75875ms)
+✔ toSqlInsert produces valid INSERT statement (0.591917ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 84.789375
