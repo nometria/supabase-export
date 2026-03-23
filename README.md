@@ -1,7 +1,7 @@
 # supabase-export
 
-[![npm version](https://img.shields.io/npm/v/supabase-export.svg)](https://www.npmjs.com/package/supabase-export)
-[![npm downloads](https://img.shields.io/npm/dm/supabase-export.svg)](https://www.npmjs.com/package/supabase-export)
+[![npm version](https://img.shields.io/npm/v/%40nometria-ai%2Fsupabase-export.svg)](https://www.npmjs.com/package/@nometria-ai/supabase-export)
+[![npm downloads](https://img.shields.io/npm/dm/%40nometria-ai%2Fsupabase-export.svg)](https://www.npmjs.com/package/@nometria-ai/supabase-export)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -15,7 +15,7 @@
 
 ```bash
 # Install
-npm install -g supabase-export
+npm install -g @nometria-ai/supabase-export
 
 # Export all tables from your Supabase project
 supabase-export export \
@@ -47,13 +47,13 @@ TARGET_DATABASE_URL=postgresql://...    # for imports
 
 ```bash
 # Run without installing
-npx supabase-export export --url https://your-project.supabase.co --key eyJ...
+npx @nometria-ai/supabase-export export --url https://your-project.supabase.co --key eyJ...
 
 # Install globally
-npm install -g supabase-export
+npm install -g @nometria-ai/supabase-export
 
 # Or as a dev dependency
-npm install --save-dev supabase-export
+npm install --save-dev @nometria-ai/supabase-export
 ```
 
 ---
@@ -154,8 +154,8 @@ Import options:
 ## Use as a library
 
 ```js
-import { exportSupabase } from 'supabase-export/exporter';
-import { importToPostgres } from 'supabase-export/importer';
+import { exportSupabase } from '@nometria-ai/supabase-export/exporter';
+import { importToPostgres } from '@nometria-ai/supabase-export/importer';
 
 const result = await exportSupabase({
   supabaseUrl:  process.env.SUPABASE_URL,
@@ -208,7 +208,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: npx supabase-export export --dir ./backup
+      - run: npx @nometria-ai/supabase-export export --dir ./backup
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
