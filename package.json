@@ -1,6 +1,6 @@
 {
   "name": "@nometria-ai/supabase-export",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Export all your Supabase data to JSON or SQL, and import into any Postgres database. The definitive escape hatch.",
   "type": "module",
   "bin": {
