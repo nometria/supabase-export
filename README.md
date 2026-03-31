@@ -1,21 +1,11 @@
 # supabase-export
 
+Built by the [Nometria](https://nometria.com) team — we take AI-built apps to production.
+
 [![npm version](https://img.shields.io/npm/v/%40nometria-ai%2Fsupabase-export.svg)](https://www.npmjs.com/package/@nometria-ai/supabase-export)
 [![npm downloads](https://img.shields.io/npm/dm/%40nometria-ai%2Fsupabase-export.svg)](https://www.npmjs.com/package/@nometria-ai/supabase-export)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-
-<div align="center">
-
-**[Nometria](https://nometria.com)** takes AI-built apps to production on AWS — secure, scalable, ready for real users.
-
-<sub><i>Customers switching from Supabase to self-hosted Postgres needed a clean export tool. This is the escape hatch we wish existed from day one.</i></sub>
-
-[![Deploy with Nometria](https://img.shields.io/badge/Deploy%20with-Nometria-111827?style=for-the-badge)](https://nometria.com)
-
-</div>
-
----
 
 > Export all your Supabase data to JSON or SQL — and import into any Postgres. The definitive escape hatch.
 
@@ -284,6 +274,3 @@ Commands:
 
 See `examples/sample-export/` for what an export directory looks like, including `_manifest.json` and `users.json`.
 
----
-
-<p align="center">Made with ❤️ by <a href="https://nometria.com">Nometria</a> — deploy AI apps to production in one click</p>
