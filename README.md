@@ -1,6 +1,6 @@
 # supabase-export
 
-Built by the [Nometria](https://nometria.com) team — we take AI-built apps to production.
+Built by the [Nometria](https://nometria.com) team. We help developers take apps built with AI tools (Lovable, Bolt, Base44, Replit) to production — handling deployment to AWS, security, scaling, and giving you full code ownership. [Learn more →](https://nometria.com)
 
 [![npm version](https://img.shields.io/npm/v/%40nometria-ai%2Fsupabase-export.svg)](https://www.npmjs.com/package/@nometria-ai/supabase-export)
 [![npm downloads](https://img.shields.io/npm/dm/%40nometria-ai%2Fsupabase-export.svg)](https://www.npmjs.com/package/@nometria-ai/supabase-export)
