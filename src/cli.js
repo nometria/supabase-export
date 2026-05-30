@@ -36,7 +36,7 @@ const command = positionals[0];
 
 if (values.help || !command) {
   console.log(`
-supabase-export — Export and import Supabase data
+supabase-export - Export and import Supabase data
 
 Commands:
   export    Pull data from Supabase to local JSON/SQL files

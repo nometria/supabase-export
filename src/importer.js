@@ -127,7 +127,7 @@ async function insertBatch(pool, table, rows, schema, onConflict) {
         inserted += result.rowCount || 0;
         skipped += batch.length - (result.rowCount || 0);
       } catch (err) {
-        console.warn(`  Batch insert error (${table}): ${err.message} — falling back to row-by-row`);
+        console.warn(`  Batch insert error (${table}): ${err.message} - falling back to row-by-row`);
         for (const row of batch) {
           try {
             const rowCols = Object.keys(row).map((c) => `"${c}"`).join(', ');

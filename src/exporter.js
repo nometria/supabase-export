@@ -148,7 +148,7 @@ async function fetchAllRows(client, table, schema, onProgress) {
     }
 
     if (error) {
-      console.warn(`  Warning: ${table} — ${error.message}`);
+      console.warn(`  Warning: ${table} - ${error.message}`);
       break;
     }
 

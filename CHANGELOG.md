@@ -14,7 +14,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - `--tables` flag: selective export/import of specific tables
 - `--dry-run` flag: validate import without writing
 - `_manifest.json`: table list, row counts, and export timestamp written automatically
-- Paginated fetch (1000 rows/page) — handles tables with millions of rows
+- Paginated fetch (1000 rows/page) - handles tables with millions of rows
 - Fallback ordering for tables without an `id` column
 - Batch inserts (500 rows/batch) with row-by-row fallback on conflict
 - `ON CONFLICT DO NOTHING` in all SQL output

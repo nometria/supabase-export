@@ -1,15 +1,15 @@
 # supabase-export
 
-Built by the [Nometria](https://nometria.com) team. We help developers take apps built with AI tools (Lovable, Bolt, Base44, Replit) to production — handling deployment to AWS, security, scaling, and giving you full code ownership. [Learn more →](https://nometria.com)
+Built by the [Nometria](https://nometria.com) team. We help developers take apps built with AI tools (Lovable, Bolt, Base44, Replit) to production - handling deployment to AWS, security, scaling, and giving you full code ownership. [Learn more →](https://nometria.com)
 
 [![npm version](https://img.shields.io/npm/v/%40nometria-ai%2Fsupabase-export.svg)](https://www.npmjs.com/package/@nometria-ai/supabase-export)
 [![npm downloads](https://img.shields.io/npm/dm/%40nometria-ai%2Fsupabase-export.svg)](https://www.npmjs.com/package/@nometria-ai/supabase-export)
 [![Node.js](https://img.shields.io/badge/node-%3E%3D18-brightgreen)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-> Export all your Supabase data to JSON or SQL — and import into any Postgres. The definitive escape hatch.
+> Export all your Supabase data to JSON or SQL - and import into any Postgres. The definitive escape hatch.
 
-"How do I export all my Supabase data?" is one of the most searched Supabase questions. This is the definitive answer: paginated export of every table, with a direct importer into any Postgres target — self-hosted Supabase, Neon, Railway, RDS, or local.
+"How do I export all my Supabase data?" is one of the most searched Supabase questions. This is the definitive answer: paginated export of every table, with a direct importer into any Postgres target - self-hosted Supabase, Neon, Railway, RDS, or local.
 
 ---
 
@@ -104,7 +104,7 @@ supabase-export import \
   --dir ./supabase-export \
   --target postgresql://user:pass@host:5432/db
 
-# Dry run first — validates data without writing anything
+# Dry run first - validates data without writing anything
 supabase-export import --dir ... --target ... --dry-run
 
 # Import only specific tables
@@ -220,7 +220,7 @@ jobs:
 
 ## Technical details
 
-- **Pagination**: fetches 1,000 rows per request using Supabase's `.range()` — handles tables with millions of rows
+- **Pagination**: fetches 1,000 rows per request using Supabase's `.range()` - handles tables with millions of rows
 - **SQL output**: produces `INSERT INTO "schema"."table" (...) VALUES (...) ON CONFLICT DO NOTHING;`
 - **Import batching**: inserts 500 rows per batch; falls back to row-by-row on conflict
 - **Manifest**: `_manifest.json` written on every export for import validation
@@ -263,7 +263,7 @@ Running `node --test tests/exporter.test.js`:
 CLI help output:
 
 ```
-supabase-export — Export and import Supabase data
+supabase-export - Export and import Supabase data
 
 Commands:
   export    Pull data from Supabase to local JSON/SQL files
