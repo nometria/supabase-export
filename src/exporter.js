@@ -17,6 +17,7 @@
 import { createClient } from '@supabase/supabase-js';
 import { writeFileSync, mkdirSync, existsSync } from 'fs';
 import { join } from 'path';
+import { discoverTablesViaRest } from './rest.js';
 
 const PAGE_SIZE = 1000;  // Supabase default max rows per request
 
@@ -53,7 +54,7 @@ export async function exportSupabase({
   });
 
   // ── Discover tables ────────────────────────────────────────────────────────
-  const tableList = tables || await discoverTables(client, schema);
+  const tableList = tables || await discoverTables(client, schema, supabaseUrl, supabaseKey);
   console.log(`Tables to export: ${tableList.join(', ')}`);
 
   if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true });
@@ -107,7 +108,7 @@ export async function exportSupabase({
 
 // ── Table discovery ────────────────────────────────────────────────────────────
 
-async function discoverTables(client, schema) {
+async function discoverTables(client, schema, supabaseUrl, supabaseKey) {
   // Use rpc to query information_schema (service role can access this)
   const { data, error } = await client
     .from('information_schema.tables')
@@ -117,10 +118,16 @@ async function discoverTables(client, schema) {
     .order('table_name');
 
   if (error) {
-    // Fallback: try a known set of common tables
-    console.warn('Could not auto-discover tables:', error.message);
-    console.warn('Use --tables to specify table names explicitly.');
-    throw new Error(`Table discovery failed: ${error.message}. Use --tables flag.`);
+    // Fallback: dependency-free discovery straight over PostgREST. This mirrors
+    // the hosted web engine and keeps discovery working when the supabase-js
+    // client path is blocked (e.g. restricted information_schema exposure).
+    console.warn('supabase-js discovery failed, falling back to REST:', error.message);
+    try {
+      return await discoverTablesViaRest(supabaseUrl, supabaseKey, schema);
+    } catch (restErr) {
+      console.warn('Use --tables to specify table names explicitly.');
+      throw new Error(`Table discovery failed: ${restErr.message}. Use --tables flag.`);
+    }
   }
 
   return (data || []).map((r) => r.table_name).filter((t) => !t.startsWith('_'));

@@ -27,6 +27,7 @@ const { values, positionals } = parseArgs({
     target:   { type: 'string' },
     bundle:   { type: 'boolean', default: false },
     'dry-run': { type: 'boolean', default: false },
+    rest:     { type: 'boolean', default: false },
     help:     { type: 'boolean', short: 'h', default: false },
   },
   strict: false,
@@ -51,6 +52,9 @@ Export options:
   --format   json | sql (default: json)
   --dir      Output directory (default: ./supabase-export)
   --bundle   Write all tables into one export.json file
+
+List options:
+  --rest     Discover tables over PostgREST (no @supabase/supabase-js needed)
 
 Import options:
   --dir      Export directory to import from
@@ -107,6 +111,14 @@ if (command === 'export') {
   if (!supabaseUrl || !supabaseKey) {
     console.error('Error: --url and --key are required');
     process.exit(1);
+  }
+  if (values.rest) {
+    // Dependency-free discovery straight over PostgREST.
+    const { discoverTablesViaRest } = await import('./rest.js');
+    const names = await discoverTablesViaRest(supabaseUrl, supabaseKey, values.schema);
+    console.log(`\nTables in schema '${values.schema}':`);
+    names.forEach((t) => console.log(`  ${t}`));
+    process.exit(0);
   }
   const { createClient } = await import('@supabase/supabase-js');
   const client = createClient(supabaseUrl, supabaseKey, { auth: { persistSession: false } });

@@ -32,6 +32,9 @@ supabase-export import \
 # List all tables
 supabase-export list --url https://your-project.supabase.co --key eyJ...
 
+# List tables with no @supabase/supabase-js dependency (pure PostgREST)
+supabase-export list --url ... --key ... --rest
+
 # Run tests
 npm test
 ```
